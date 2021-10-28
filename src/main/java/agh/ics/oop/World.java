@@ -2,16 +2,11 @@ package agh.ics.oop;
 
 public class World {
     public static void main(String[] args){
-        System.out.println("Start");
-        String[] arr = {"b", "l", "l", "r"};
-        Direction[] newArr = convert(arr);
-        run(newArr);
-        System.out.println("Stop");
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(1,2);
-        System.out.println(position2);
-        System.out.println(position2.equals(position1));
+        Animal animal = new Animal();
+        System.out.println(animal.toString());
+        String[] arg = new String[] {"f", "b", "forward", "l", "r", "r", "forward"};
+        MoveDirection[] arrMove = OptionsParser.parse(arg);
+        System.out.println(animal.toString());
     }
     public static Direction[] convert(String[] direct){
         int l = direct.length;
@@ -22,7 +17,7 @@ public class World {
                 case "b" : arr[i] = Direction.BACKWARD; break;
                 case "l" : arr[i] = Direction.LEFT; break;
                 default : arr[i] = Direction.RIGHT; break;
-            };
+            }
         }
         return arr;
     }
