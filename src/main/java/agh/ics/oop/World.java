@@ -4,8 +4,11 @@ public class World {
     public static void main(String[] args){
         Animal animal = new Animal();
         System.out.println(animal.toString());
-        String[] arg = new String[] {"f", "b", "forward", "l", "r", "r", "forward"};
+        String[] arg = new String[] {"r", "f", "forward", "f", "f", "l", "backward", "r"};
         MoveDirection[] arrMove = OptionsParser.parse(arg);
+        for(int i = 0; i < arrMove.length; i++){
+            animal.move(arrMove[i]);
+        }
         System.out.println(animal.toString());
     }
     public static Direction[] convert(String[] direct){

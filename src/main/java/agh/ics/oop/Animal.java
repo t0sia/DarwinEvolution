@@ -13,15 +13,19 @@ class Animal {
     }
 
     void move(MoveDirection direction) {
+        Vector2d tempF = position.add(orientation.toUnitVector());
+        Vector2d tempB = position.subtract(orientation.toUnitVector());
         switch (direction) {
-            case RIGHT -> orientation = orientation.next();
-            case LEFT -> orientation = orientation.previous();
-            case FORWARD -> position = position.add(orientation.toUnitVector());
-            case BACKWARD -> position = position.subtract(orientation.toUnitVector());
+            case RIGHT: orientation = orientation.next(); break;
+            case LEFT: orientation = orientation.previous(); break;
+            case FORWARD:
+                if(tempF.x <= 4 && tempF.x >= 0 && tempF.y <= 4 && tempF.y >= 0) {
+                    position = position.add(orientation.toUnitVector());
+                } break;
+            case BACKWARD:
+                if(tempB.x <= 4 && tempB.x >= 0 && tempB.y <= 4 && tempB.y >= 0) {
+                    position = position.subtract(orientation.toUnitVector());
+                } break;
         }
-        while (position.x > 4) position = position.add(new Vector2d(-1,0));
-        while (position.x < 0) position = position.add(new Vector2d(1,0));
-        while (position.y > 4) position = position.add(new Vector2d(0,-1));
-        while (position.y < 0) position = position.add(new Vector2d(0,1));
     }
 }
