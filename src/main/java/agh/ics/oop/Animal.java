@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-class Animal {
+public class Animal {
     private Vector2d position = new Vector2d(2, 2);
     private MapDirection orientation = MapDirection.NORTH;
 
@@ -12,7 +12,7 @@ class Animal {
         return (position.equals(this.position));
     }
 
-    void move(MoveDirection direction) {
+    public void move(MoveDirection direction) {
         Vector2d tempF = position.add(orientation.toUnitVector());
         Vector2d tempB = position.subtract(orientation.toUnitVector());
         switch (direction) {
