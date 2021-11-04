@@ -3,9 +3,19 @@ package agh.ics.oop;
 public class Animal {
     private Vector2d position = new Vector2d(2, 2);
     private MapDirection orientation = MapDirection.NORTH;
+    private IWorldMap map;
+
+    public Animal(IWorldMap map){
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.map = map;
+        this.position = initialPosition;
+    }
 
     public String toString() {
-        return ("Position: " + position.toString() + " Orientation: " + orientation.toString());
+        return (orientation.toString());
     }
 
     boolean isAt(Vector2d position) {
@@ -19,12 +29,12 @@ public class Animal {
             case RIGHT: orientation = orientation.next(); break;
             case LEFT: orientation = orientation.previous(); break;
             case FORWARD:
-                if(tempF.x <= 4 && tempF.x >= 0 && tempF.y <= 4 && tempF.y >= 0) {
-                    position = position.add(orientation.toUnitVector());
+                if(this.map.canMoveTo(tempF)) { //if canMoveTo ...
+                    position = tempF;
                 } break;
             case BACKWARD:
-                if(tempB.x <= 4 && tempB.x >= 0 && tempB.y <= 4 && tempB.y >= 0) {
-                    position = position.subtract(orientation.toUnitVector());
+                if(this.map.canMoveTo(tempB)) {
+                    position = tempB;
                 } break;
         }
     }

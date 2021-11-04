@@ -16,7 +16,7 @@ public class AnimalTest {
         assertEquals(testAnimal.toString(),"Position: (4,3) Orientation: Wschod");
     }
     @Test
-    public void move_test2()
+    public void move_test2_boundLeftRight()
     {
         Animal testAnimal = new Animal();
         MoveDirection[] testMove = OptionsParser.parse(new String[]{"r", "f", "f", "f", "r", "b", "l", "l"});
@@ -26,7 +26,7 @@ public class AnimalTest {
         assertEquals(testAnimal.toString(),"Position: (4,3) Orientation: Polnoc");
     }
     @Test
-    public void move_test3()
+    public void move_test3_boundUpDown()
     {
         Animal testAnimal = new Animal();
         MoveDirection[] testMove = OptionsParser.parse(new String[]{"b", "b", "b", "b", "l", "l", "f","r","f","f","f"});
