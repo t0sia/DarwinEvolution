@@ -8,7 +8,7 @@ public class OptionsParser {
                 case "f", "forward" -> ans[i] = MoveDirection.FORWARD;
                 case "b", "backward" -> ans[i] = MoveDirection.BACKWARD;
                 case "l", "left" -> ans[i] = MoveDirection.LEFT;
-                case "r", "right" -> ans[i] = MoveDirection.RIGHT;
+                default -> ans[i] = MoveDirection.RIGHT;
             }
         }
         return ans;

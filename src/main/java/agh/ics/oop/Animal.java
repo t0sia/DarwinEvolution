@@ -14,11 +14,15 @@ public class Animal {
         this.position = initialPosition;
     }
 
+    public Vector2d getPosition() {
+        return position;
+    }
+
     public String toString() {
         return (orientation.toString());
     }
 
-    boolean isAt(Vector2d position) {
+    public boolean isAt(Vector2d position) {
         return (position.equals(this.position));
     }
 
@@ -29,7 +33,7 @@ public class Animal {
             case RIGHT: orientation = orientation.next(); break;
             case LEFT: orientation = orientation.previous(); break;
             case FORWARD:
-                if(this.map.canMoveTo(tempF)) { //if canMoveTo ...
+                if(this.map.canMoveTo(tempF)) {
                     position = tempF;
                 } break;
             case BACKWARD:
