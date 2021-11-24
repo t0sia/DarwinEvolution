@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SimulationEngineTest {
+class RunTest {
 
     @Test
     public void test1() {
