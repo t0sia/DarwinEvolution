@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="GrassFieldTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-11-24T18:53:59" hostname="LAPTOP-ECOIB2OP" time="0.069">
-  <properties/>
-  <testcase name="place_plus_objectAtTest()" classname="GrassFieldTest" time="0.064"/>
-  <testcase name="isOccupiedTest()" classname="GrassFieldTest" time="0.002"/>
-  <testcase name="canMovetoTest()" classname="GrassFieldTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

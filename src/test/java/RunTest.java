@@ -52,4 +52,5 @@ class RunTest {
 
         for (int i = 0; i < test_vectors.length; i++)
             assertTrue(animals.get(i).isAt(test_vectors[i]));
-    }}
+    }
+}
