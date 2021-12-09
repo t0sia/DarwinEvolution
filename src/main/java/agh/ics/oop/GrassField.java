@@ -6,6 +6,7 @@ import java.lang.Math;
 public class GrassField extends AbstractWorldMap implements IWorldMap{
 
     private ArrayList<Grass> grasses;
+    private MapBoundary grassBoundary = new MapBoundary();
 
     public GrassField(int grass){
         grasses = new ArrayList<>();
@@ -19,6 +20,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap{
                 grasses.add(new Grass(newGrassVector));
                 downLeft = downLeft.lowerLeft(newGrassVector);
                 upRight = upRight.upperRight(newGrassVector);
+                grassBoundary.addToBoundariesList(new Grass(newGrassVector));
             }
         }
     }

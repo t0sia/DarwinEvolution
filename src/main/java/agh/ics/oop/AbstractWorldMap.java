@@ -9,6 +9,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected HashMap<Vector2d,Animal> animals = new HashMap<>();
     protected ArrayList<Animal> animalsArray = new ArrayList<>();
     protected MapVisualizer mapDraw = new MapVisualizer(this);
+    protected MapBoundary bounds = new MapBoundary();
 
     public boolean isOccupied(Vector2d position) {
         if(animals.containsKey(position)) return true;
@@ -20,9 +21,13 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
             downLeft = downLeft.lowerLeft(animal.getPosition());
             upRight = upRight.upperRight(animal.getPosition());
             animals.put(animal.getPosition(), animal);
+            animal.addObserver(new RectangularMap(upRight.x, upRight.y));
+            bounds.addToBoundariesList(animal);
             return true;
         }
-        return false;
+        else{
+            throw new IllegalArgumentException(animal.getPosition().toString() + " is invalid");
+        }
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
@@ -36,6 +41,20 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     public String toString(){
+        if (bounds.lowerBoundary().follows(downLeft)) downLeft = bounds.lowerBoundary();
+        if (bounds.upperBoundary().precedes(upRight)) upRight = bounds.upperBoundary();
         return this.mapDraw.draw(downLeft, upRight);
+    }
+
+    public Vector2d getDownLeft(){
+        if (bounds.lowerBoundary().follows(downLeft)) downLeft = bounds.lowerBoundary();
+        if (bounds.upperBoundary().precedes(upRight)) upRight = bounds.upperBoundary();
+        return this.downLeft;
+    }
+
+    public Vector2d getUpRight(){
+        if (bounds.lowerBoundary().follows(downLeft)) downLeft = bounds.lowerBoundary();
+        if (bounds.upperBoundary().precedes(upRight)) upRight = bounds.upperBoundary();
+        return this.upRight;
     }
 }
