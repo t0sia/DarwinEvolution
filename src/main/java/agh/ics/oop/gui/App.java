@@ -1,5 +1,4 @@
 package agh.ics.oop.gui;
-
 import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -7,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -73,10 +71,14 @@ public class App extends Application {
             GridPane rightGridMap = new GridPane();
             GridPane rightGridStat = new GridPane();
             GridPane leftGridStat = new GridPane();
+            GridPane leftGridChart = new GridPane();
+            GridPane rightGridChart = new GridPane();
             finalGrid.add(leftGridMap, 0, 0);
             finalGrid.add(rightGridMap, 2, 0);
             finalGrid.add(leftGridStat,0,2);
             finalGrid.add(rightGridStat, 2, 2);
+            finalGrid.add(leftGridChart, 3, 0);
+            finalGrid.add(rightGridChart, 3, 1);
             FileWriter outputFile = new FileWriter("output.csv", true);
 
             submit.setOnAction(e-> {
@@ -108,6 +110,8 @@ public class App extends Application {
                     mapNoBoundaries.place(animal);
                     mapBoundaries.place(animal);
                 }
+                LineChartGrid mapBoundariesChart = new LineChartGrid(mapBoundaries);
+                LineChartGrid mapNoBoundariesChart = new LineChartGrid(mapNoBoundaries);
                 rightGridMap.add(use.gridPaneMap(width, height, mapBoundaries), 2, 0);
                 rightGridStat.add(use.statistics(mapBoundaries),2,2 );
                 leftGridMap.add(use.gridPaneMap(width, height, mapNoBoundaries), 0, 0);
@@ -127,11 +131,16 @@ public class App extends Application {
                 Thread simulationRight = new Thread(() -> {
                     while(submitOn) {
                         try {
-                            Thread.sleep(800);
+                            Thread.sleep(300);
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
                         simulationOnButtonRight.setOnAction(stop->{
+                            Button genomTrack = new Button("Show animals with the most common gens");
+                            finalGrid.add(genomTrack, 2, 6);
+                            genomTrack.setOnAction(ev->{
+                                rightGridMap.add(use.genotypeFollow(width,height, mapBoundaries, mapBoundaries.getStats().commonGenotype()),2,0);
+                            });
                             simulationOnButtonRight.setText("Start Right Simulation");
                             simulationOnRight = false;
                         });
@@ -152,21 +161,12 @@ public class App extends Application {
                         Platform.runLater(() -> {
                             rightGridMap.getChildren().clear();
                             rightGridStat.getChildren().clear();
+                            rightGridChart.getChildren().clear();
                             rightGridMap.add(use.gridPaneMap(width, height, mapBoundaries), 2, 0);
                             rightGridStat.add(use.statistics(mapBoundaries),2,2 );
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("RIGHT ");
-                            sb.append("Animals: ");
-                            sb.append(mapBoundaries.getStats().getAnimals());
-                            sb.append(" Plants: ");
-                            sb.append(mapBoundaries.getStats().getPlants());
-                            sb.append(" Average Energy: ");
-                            sb.append(mapBoundaries.getStats().getAvgEnergy());
-                            sb.append(" Average Life Length: ");
-                            sb.append(mapBoundaries.getStats().getAvgLife());
-                            sb.append(" Average Children Number: ");
-                            sb.append(mapBoundaries.getStats().getAvgChildren());
-                            sb.append("\n");
+                            mapBoundariesChart.chartUpdate(mapBoundaries.getStats(), day);
+                            rightGridChart.add(mapBoundariesChart.getLineChart(),3,1);
+                            StringBuilder sb = StringToFile.BuildStringToFile(mapBoundaries.getStats(), true);
                             try {
                                 outputFile.append(sb);
                                 outputFile.flush();
@@ -180,11 +180,16 @@ public class App extends Application {
                 Thread simulationLeft = new Thread(() -> {
                     while(submitOn) {
                         try {
-                            Thread.sleep(800);
+                            Thread.sleep(300);
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
                         simulationOnButtonLeft.setOnAction(stop->{
+                            Button genomTrack = new Button("Show animals with the most common gens");
+                            finalGrid.add(genomTrack, 0, 6);
+                            genomTrack.setOnAction(ev->{
+                                leftGridMap.add(use.genotypeFollow(width,height, mapNoBoundaries, mapNoBoundaries.getStats().commonGenotype()),0,0);
+                            });
                             simulationOnButtonLeft.setText("Start Left Simulation");
                             simulationOnLeft = false;
                         });
@@ -206,21 +211,12 @@ public class App extends Application {
                         Platform.runLater(() -> {
                             leftGridMap.getChildren().clear();
                             leftGridStat.getChildren().clear();
+                            leftGridChart.getChildren().clear();
                             leftGridMap.add(use.gridPaneMap(width, height, mapNoBoundaries), 0, 0);
                             leftGridStat.add(use.statistics(mapNoBoundaries), 0,2);
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("LEFT ");
-                            sb.append("Animals: ");
-                            sb.append(mapNoBoundaries.getStats().getAnimals());
-                            sb.append(" Plants: ");
-                            sb.append(mapNoBoundaries.getStats().getPlants());
-                            sb.append(" Average Energy: ");
-                            sb.append(mapNoBoundaries.getStats().getAvgEnergy());
-                            sb.append(" Average Life Length: ");
-                            sb.append(mapNoBoundaries.getStats().getAvgLife());
-                            sb.append(" Average Children Number: ");
-                            sb.append(mapNoBoundaries.getStats().getAvgChildren());
-                            sb.append("\n");
+                            mapNoBoundariesChart.chartUpdate(mapNoBoundaries.getStats(), day);
+                            leftGridChart.add(mapNoBoundariesChart.getLineChart(),3,0);
+                            StringBuilder sb = StringToFile.BuildStringToFile(mapNoBoundaries.getStats(), false);
                             try {
                                 outputFile.append(sb);
                                 outputFile.flush();
@@ -231,8 +227,11 @@ public class App extends Application {
                         });
                     }
                 });
+                simulationRight.setDaemon(true);
+                simulationLeft.setDaemon(true);
                 simulationLeft.start();
                 simulationRight.start();
+
 
             });
 

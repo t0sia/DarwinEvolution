@@ -19,13 +19,7 @@ public class Statistics {
         this.plants = 0;
         this.avgEnergy = 0;
     }
-    public void grassUpdate(){plants += 1;}
-    public void animalsUpdate(){animals += 1;}
     public void magicUpdate(){MagicMode += 1; }
-    public void deadUpdate(int days){
-        deadAnimals += 1;
-        deadDays += days;
-    }
 
     public void dailyUpdate(GrassField map){
         int sumEnergy = 0;
@@ -41,6 +35,8 @@ public class Statistics {
             this.avgChildren = (double) sumBaby / map.getAnimals().size();
         }
         if(deadAnimals > 0) avgLife = (double) deadDays/deadAnimals;
+        animals = map.getAnimals().size();
+        plants = map.getGrasses().size();
     }
 
     public void genotypesUpdate(GrassField map){

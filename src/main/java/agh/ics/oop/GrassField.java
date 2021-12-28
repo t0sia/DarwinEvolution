@@ -16,11 +16,13 @@ public class GrassField{
     final int jungleHeight;
     final boolean ifBoundaries;
     final boolean ifMagic;
+    public Animal track;
     private Statistics stats;
     private ArrayListMultimap<Vector2d, Animal> animals;
     protected HashMap<Vector2d, Grass> grasses = new HashMap<>();
 
     public GrassField(int width, int height, double jungleRatio, boolean ifBoundaries, int startAnimals, boolean ifMagic){
+        this.track = null;
         this.width = width;
         this.height = height;
         this.ifBoundaries = ifBoundaries;
@@ -71,12 +73,10 @@ public class GrassField{
         if(newJungleGrass.size() > 0){
             int j = rand.nextInt(newJungleGrass.size());
             grasses.put(newJungleGrass.get(j).getPosition(), newJungleGrass.get(j));
-            this.stats.grassUpdate();
         }
         if(newStepGrass.size() > 0){
             int s = rand.nextInt(newStepGrass.size());
             grasses.put(newStepGrass.get(s).getPosition(), newStepGrass.get(s));
-            this.stats.grassUpdate();
         }
     }
 
@@ -91,7 +91,6 @@ public class GrassField{
             for(Animal a: pom.get(p)){
                 if(a.getEnergy() <= 0){
                     a.Death(day);
-                    this.stats.deadUpdate(day);
                     this.stats.genotypesUpdate(this);
                     animals.remove(p, a);
                 }
@@ -142,7 +141,6 @@ public class GrassField{
                 if(2*P1.getEnergy() > startEnergy && 2* P2.getEnergy() > startEnergy) {
                     Animal baby = P1.baby(P1, P2);
                     place(baby);
-                    this.stats.animalsUpdate();
                     this.stats.genotypesUpdate(this);
                 }
             }

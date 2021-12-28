@@ -13,6 +13,9 @@ public class Animal {
     private ArrayList<Animal> babyList = new ArrayList<>();
     private boolean ifDead;
     private int lifeLen;
+    private boolean track;
+    private int babyTracker;
+    private int descTracker;
 
     public Animal(Vector2d initialPosition, int[] gens, int energy) {
         Random rand = new Random();
@@ -22,6 +25,9 @@ public class Animal {
         this.startEnergy = energy;
         this.ifDead = false;
         this.lifeLen = 0;
+        this.track = false;
+        this.babyTracker = 0;
+        this.descTracker = 0;
         int orientationNumber = rand.nextInt(8);
         switch (orientationNumber){
             case 0:
@@ -58,6 +64,14 @@ public class Animal {
     public MapDirection getOrientation() { return orientation; }
 
     public int[] getGens() { return gens; }
+
+    public boolean isTrack() {return track; }
+
+    public int getBabyTracker() {return babyTracker; }
+
+    public int getLifeLen() {return lifeLen; }
+
+    public int getDescTracker() {return descTracker; }
 
     public int getEnergy() {return energy; }
 
@@ -123,6 +137,8 @@ public class Animal {
         second.energy = (int)(second.energy*3/4);
         Arrays.sort(babyGens);
         Animal baby = new Animal(first.position, babyGens, babyEnergy);
+        if (first.track) first.babyTracker += 1;
+        if (second.track) second.babyTracker += 1;
         first.babyList.add(baby);
         second.babyList.add(baby);
         return baby;
@@ -135,5 +151,9 @@ public class Animal {
     public void Death(int day){
         this.lifeLen = day;
         this.ifDead = true;
+    }
+
+    public void tracking(){
+        track = true;
     }
 }
