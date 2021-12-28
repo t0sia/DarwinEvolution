@@ -13,6 +13,8 @@ public class Statistics {
     private double avgChildren = 0;
     private int MagicMode = 0;
     private HashMap<Genotype, Integer> genotypes = new HashMap<>();
+    private double endFileAnimals = 0;
+    private double endFilePlant = 0;
 
     public Statistics(int animals){
         this.animals = animals;
@@ -37,6 +39,8 @@ public class Statistics {
         if(deadAnimals > 0) avgLife = (double) deadDays/deadAnimals;
         animals = map.getAnimals().size();
         plants = map.getGrasses().size();
+        endFileAnimals += animals;
+        endFilePlant += plants;
     }
 
     public void genotypesUpdate(GrassField map){
@@ -95,4 +99,8 @@ public class Statistics {
     public int getMagicTimes() {
         return MagicMode;
     }
+
+    public double getEndFileAnimals() {return endFileAnimals; }
+
+    public double getEndFilePlant() {return endFilePlant; }
 }

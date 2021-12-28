@@ -9,7 +9,7 @@ public class Genotype {
         for(int a : gens)this.gens.add(a);
     }
 
-    public boolean equals(Genotype gen) {return this.gens.equals(gen); }
+    public boolean equals(Genotype gen) { return gens.toString().equals(gen.toString());}
 
     public String toString(){
         return gens.toString();

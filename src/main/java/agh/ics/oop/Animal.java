@@ -71,7 +71,7 @@ public class Animal {
 
     public int getLifeLen() {return lifeLen; }
 
-    public int getDescTracker() {return descTracker; }
+    public int getDescTracker() {return babyTracker; }
 
     public int getEnergy() {return energy; }
 

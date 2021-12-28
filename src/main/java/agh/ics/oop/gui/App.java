@@ -136,11 +136,23 @@ public class App extends Application {
                             ex.printStackTrace();
                         }
                         simulationOnButtonRight.setOnAction(stop->{
+                            Button fileSave = new Button("Save to file");
+                            finalGrid.add(fileSave, 2,7);
+                            fileSave.setOnAction(ev->{
+                                StringBuilder sb = StringToFile.BuildStringToEndFile(mapBoundaries.getStats(), true, day);
+                                try {
+                                    outputFile.append(sb);
+                                    outputFile.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            });
                             Button genomTrack = new Button("Show animals with the most common gens");
                             finalGrid.add(genomTrack, 2, 6);
                             genomTrack.setOnAction(ev->{
                                 rightGridMap.add(use.genotypeFollow(width,height, mapBoundaries, mapBoundaries.getStats().commonGenotype()),2,0);
                             });
+
                             simulationOnButtonRight.setText("Start Right Simulation");
                             simulationOnRight = false;
                         });
@@ -173,7 +185,6 @@ public class App extends Application {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-                            day += 1;
                         });
                     }
                 });
@@ -185,6 +196,17 @@ public class App extends Application {
                             ex.printStackTrace();
                         }
                         simulationOnButtonLeft.setOnAction(stop->{
+                            Button fileSave = new Button("Save to file");
+                            finalGrid.add(fileSave, 0,7);
+                            fileSave.setOnAction(ev->{
+                                StringBuilder sb = StringToFile.BuildStringToEndFile(mapNoBoundaries.getStats(), true, day);
+                                try {
+                                    outputFile.append(sb);
+                                    outputFile.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            });
                             Button genomTrack = new Button("Show animals with the most common gens");
                             finalGrid.add(genomTrack, 0, 6);
                             genomTrack.setOnAction(ev->{
@@ -223,16 +245,14 @@ public class App extends Application {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-                            day += 1;
                         });
+                        day += 1;
                     }
                 });
                 simulationRight.setDaemon(true);
                 simulationLeft.setDaemon(true);
                 simulationLeft.start();
                 simulationRight.start();
-
-
             });
 
             Scene scene = new Scene(grid, 400, 400);
